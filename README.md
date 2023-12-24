@@ -1,8 +1,18 @@
 # Recursive Self-improvement Suite
 
-A suite of open-ended, non-imitative tasks involving generalizable skills for large language model chatbots and agents to enable bootstrapped recursive self-improvement.
+A suite of open-ended, non-imitative tasks involving generalizable skills for large language model chatbots and agents to enable bootstrapped recursive self-improvement an an unambiguous AGI.
 
+The current generation of LLMs are trained in an imitative fashion, the main task is auto-regressive text prediction for data written by humans.
+In this task, the model is effectively penalized if it behaves more intelligently than the behavior present in the training data.
+The hypothesis is that the current large language models are only using a small part of their capacity for intelligent behavior, because human-level cannot be significantly surpassed with imitative tasks. This is why most quantitative benchmarks show the current generation of LLMs asymptotically approach the human level, but not significantly exceed it.
 
+We have done imitative objective swapping before in narrow AI deep learning models, for example in AlphaGo, but also in uncountably many other models. AlphaGo was first trained imitatively with grandmaster games, and only after the objective was swapped to a self-competitive objective it significantly surpassed the human level.
+
+What sorts of tasks we need?
+
+Any task which involves a large volume of generalizable skills, and for which the solutions can be evaluated to be better or worse than other reference solutions. Programming is such a task. So is playing chess.
+
+As we now have LLM chatbots which are able to evaluate the solutions to very complex natural language tasks from different perspectives, as a panel of LLM judges, the pool of tasks we have available is vast. We can in effect bootstrap recursive self-improvement by closing the loop and evaluating the act of evaluation as well as one task.
 
 ## Reference
 
