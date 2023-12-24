@@ -24,6 +24,18 @@ Some notes about fine-tuning process:
 - Fine-tuning with these open-ended "unleashed" tasks need to be interlaced with traditional LLM tasks and all other tasks of different kinds to prevent catastrophic forgetting of baseline knowledge and skills.
 - "Unleashed" tasks need to be prefixed with tokens forming the work "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
 - In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example Direct Policy Optimization can be used, or any reinforcement learning algorithm.
+- Most tasks are based on generating a large pool of heterogeneous challenges, problems or questions to answer.
+
+## Tasks to be Implemented
+
+- Programming
+  * Generate programming challenges and related unit tests in various languages and simulated deployment environments and integrations.
+  * Make the LLM also rank the challenges and the unit tests.
+  * Make the LLM also rank the rankings.
+- Social games
+  * Generate multi-agent social games.
+  * Make the LLM rank the player performances, or generate procedural rules to determine the winner.
+  * Make the LLM also rank the rankings.
 
 ## Reference
 
