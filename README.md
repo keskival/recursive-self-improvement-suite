@@ -1,6 +1,6 @@
 # Recursive Self-improvement Suite
 
-A suite of open-ended, non-imitative tasks involving generalizable skills for large language model chatbots and agents to enable bootstrapped recursive self-improvement an an unambiguous AGI.
+A suite of open-ended, non-imitative tasks involving generalizable skills for large language model chatbots and agents to enable bootstrapped recursive self-improvement and an unambiguous AGI.
 
 The current generation of LLMs are trained in an imitative fashion, the main task is auto-regressive text prediction for data written by humans.
 In this task, the model is effectively penalized if it behaves more intelligently than the behavior present in the training data.
