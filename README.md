@@ -8,7 +8,7 @@ The hypothesis is that the current large language models are only using a small 
 
 We have done imitative objective swapping before in narrow AI deep learning models, for example in AlphaGo, but also in uncountably many other models. AlphaGo was first trained imitatively with grandmaster games, and only after the objective was swapped to a self-competitive objective it significantly surpassed the human level.
 
-What sorts of tasks we need?
+What sorts of tasks do we need?
 
 Any task which involves a large volume of generalizable skills, and for which the solutions can be evaluated to be better or worse than other reference solutions. Programming is such a task. So is playing chess.
 
