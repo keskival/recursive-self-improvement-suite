@@ -23,6 +23,7 @@ These tasks should be used to fine-tune a pre-trained LLM chatbot which has been
 Some notes about fine-tuning process:
 - Fine-tuning with these open-ended "unleashed" tasks need to be interlaced with traditional LLM tasks and all other tasks of different kinds to prevent catastrophic forgetting of baseline knowledge and skills.
 - "Unleashed" tasks need to be prefixed with tokens forming the work "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
+- In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example Direct Policy Optimization can be used, or any reinforcement learning algorithm.
 
 ## Reference
 
