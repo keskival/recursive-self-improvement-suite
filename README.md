@@ -14,6 +14,16 @@ Any task which involves a large volume of generalizable skills, and for which th
 
 As we now have LLM chatbots which are able to evaluate the solutions to very complex natural language tasks from different perspectives, as a panel of LLM judges, the pool of tasks we have available is vast. We can in effect bootstrap recursive self-improvement by closing the loop and evaluating the act of evaluation as well as one task.
 
+The tasks can be roughly categorized into groups:
+- Procedurally evaluated (e.g. chess) / LLM test case evaluated (e.g. programming) / LLM judge evaluated (e.g. negotiation)
+- LLM assistant tasks (e.g. question answering, technical design) / LLM agent tasks (e.g. social interaction, multi-step and open world tasks)
+
+These tasks should be used to fine-tune a pre-trained LLM chatbot which has been instruct-tuned.
+
+Some notes about fine-tuning process:
+- Fine-tuning with these open-ended "unleashed" tasks need to be interlaced with traditional LLM tasks and all other tasks of different kinds to prevent catastrophic forgetting of baseline knowledge and skills.
+- "Unleashed" tasks need to be prefixed with tokens forming the work "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
+
 ## Reference
 
 Recursive Self-improvement Suite
