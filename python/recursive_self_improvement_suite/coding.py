@@ -1,6 +1,13 @@
 """Coding task prompts."""
 
 # The Code Llama prompts are given here as an inspiration, not something we want to follow.
+# We need to make at least the following improvements:
+# - The problems need to be open-ended, not simple interview questions with one correct answer.
+# - The problems need to be realistic, with real world constraints and interfaces.
+# - The problems need to require generalist skills, not one skill like in interview questions.
+# - We need to evaluate solutions by rankings, potentially by involving running the unit tests and their resulting scores.
+# - We need to have prompts also to evaluate evaluation rankings.
+
 # The self-instruct in Code Llama was done with the following recipe:
 # https://scontent.fgrx2-1.fna.fbcdn.net/v/t39.2365-6/369856151_1754812304950972_1159666448927483931_n.pdf
 #
