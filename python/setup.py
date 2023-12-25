@@ -4,7 +4,7 @@
 
 from setuptools import setup, find_packages
 
-requirements = ['Click>=7.0', ]
+requirements = ['Click>=7.0', 'openai>=1.6', ]
 
 test_requirements = ['pytest>=3', ]
 
