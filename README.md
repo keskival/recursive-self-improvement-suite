@@ -23,7 +23,7 @@ These tasks should be used to fine-tune a pre-trained LLM chatbot which has been
 Some notes about fine-tuning process:
 - Fine-tuning with these open-ended "unleashed" tasks need to be interlaced with traditional LLM tasks and all other tasks of different kinds to prevent catastrophic forgetting of baseline knowledge and skills.
 - "Unleashed" tasks need to be prefixed with tokens forming the word "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
-- In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example Direct Policy Optimization can be used, or any reinforcement learning algorithm.
+- In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example Direct Preference Optimization can be used, or any reinforcement learning algorithm.
 - Most tasks are based on generating a large pool of heterogeneous challenges, problems or questions to answer.
 
 ## Tasks to be Implemented
@@ -32,11 +32,13 @@ Some notes about fine-tuning process:
   * Generate programming challenges and related unit tests in various languages and simulated deployment environments and integrations.
   * Make the LLM also rank the challenges and the unit tests.
   * Make the LLM also rank the rankings.
+  * See also: [Code Llama](https://ai.meta.com/research/publications/code-llama-open-foundation-models-for-code/)
 - Social games
   * Generate multi-agent social games.
   * Make the LLM rank the player performances, or generate procedural rules to determine the winner.
   * Make the LLM also rank the games based on how rich and challenging they are, and how many generalist skills they require.
   * Make the LLM also rank the rankings.
+  * See also: [AgentBench](https://github.com/THUDM/AgentBench)
 
 ## Reference
 
@@ -50,7 +52,25 @@ Recursive Self-improvement Suite
 }
 ```
 
-## Links
+## References
+
+- [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)
+- [Accelerating Neural Self-Improvement via Bootstrapping](https://arxiv.org/abs/2305.01547)
+- [Flacuna: Unleashing the Problem Solving Power of Vicuna using FLAN Fine-Tuning](https://arxiv.org/abs/2307.02053)
+- [Learning Evaluation Models from Large Language Models for Sequence Generation](https://arxiv.org/abs/2308.04386)
+- [AgentBench](https://github.com/THUDM/AgentBench)
+- [Self-Alignment with Instruction Backtranslation](https://arxiv.org/abs/2308.06259)
+- [Code Llama](https://ai.meta.com/research/publications/code-llama-open-foundation-models-for-code/)
+- [Unnatural Instructions: Tuning Language Models with (Almost) No Human Labor](https://arxiv.org/abs/2212.09689)
+- [Direct Preference Optimization: Your Language Model is Secretly a Reward Model](https://arxiv.org/abs/2305.18290)
+- [Large Language Models as Optimizers](https://arxiv.org/abs/2309.03409)
+- [Reinforced Self-Training (ReST) for Language Modeling](https://arxiv.org/abs/2308.08998)
+- [Self-Taught Optimizer (STOP): Recursively Self-Improving Code Generation](https://arxiv.org/abs/2310.02304)
+- [Beyond Human Data: Scaling Self-Training for Problem-Solving with Language Models](https://arxiv.org/abs/2312.06585)
+- [Weak-to-strong generalization](https://github.com/openai/weak-to-strong)
+- [Vision-Language Models as a Source of Rewards](https://arxiv.org/abs/2312.09187)
+
+## Related Posts
 
 - [https://www.linkedin.com/posts/terokeskivalkama_i-wrote-an-essay-for-the-ft-weekend-the-activity-7052368115564691456-v3i1](https://www.linkedin.com/posts/terokeskivalkama_i-wrote-an-essay-for-the-ft-weekend-the-activity-7052368115564691456-v3i1)
 - [https://www.linkedin.com/posts/terokeskivalkama_llm-chatbots-agi-activity-7054501809997905920-m5LK](https://www.linkedin.com/posts/terokeskivalkama_llm-chatbots-agi-activity-7054501809997905920-m5LK)
@@ -61,7 +81,6 @@ Recursive Self-improvement Suite
 - [https://www.linkedin.com/posts/terokeskivalkama_largelanguagemodel-chatgpt-llama2-activity-7091812779333947393-0085](https://www.linkedin.com/posts/terokeskivalkama_largelanguagemodel-chatgpt-llama2-activity-7091812779333947393-0085)
 - [https://www.linkedin.com/posts/terokeskivalkama_activity-7092107467567824897-Q8Bu](https://www.linkedin.com/posts/terokeskivalkama_activity-7092107467567824897-Q8Bu)
 - [https://www.linkedin.com/posts/terokeskivalkama_agi-activity-7094908229863772160-AkLw](https://www.linkedin.com/posts/terokeskivalkama_agi-activity-7094908229863772160-AkLw)
-- [https://github.com/THUDM/AgentBench](https://github.com/THUDM/AgentBench)
 - [https://www.linkedin.com/posts/terokeskivalkama_github-thudmagentbench-a-comprehensive-activity-7094919681043537920-OpAi](https://www.linkedin.com/posts/terokeskivalkama_github-thudmagentbench-a-comprehensive-activity-7094919681043537920-OpAi)
 - [https://www.linkedin.com/posts/terokeskivalkama_llm-chatbot-agi-activity-7095548308118511616-b2xk](https://www.linkedin.com/posts/terokeskivalkama_llm-chatbot-agi-activity-7095548308118511616-b2xk)
 - [https://www.linkedin.com/posts/terokeskivalkama_agi-llm-activity-7096084143804944384-EUi_](https://www.linkedin.com/posts/terokeskivalkama_agi-llm-activity-7096084143804944384-EUi_)
@@ -89,3 +108,7 @@ Recursive Self-improvement Suite
 - [https://www.linkedin.com/posts/terokeskivalkama_autoregressive-text-prediction-is-a-very-activity-7144406057807761408-tJdL](https://www.linkedin.com/posts/terokeskivalkama_autoregressive-text-prediction-is-a-very-activity-7144406057807761408-tJdL)
 - [https://www.linkedin.com/posts/terokeskivalkama_vision-language-models-as-a-source-of-rewards-activity-7143931901576220672-T1i9](https://www.linkedin.com/posts/terokeskivalkama_vision-language-models-as-a-source-of-rewards-activity-7143931901576220672-T1i9)
 - [https://www.linkedin.com/posts/terokeskivalkama_we-still-have-a-week-to-meet-my-prediction-activity-7144617645747728384-yo-4](https://www.linkedin.com/posts/terokeskivalkama_we-still-have-a-week-to-meet-my-prediction-activity-7144617645747728384-yo-4)
+
+## How to Contribute
+
+Just make a PR. Making a PR is an acknowledgement that the contribution can be added as-is or in a modified form to the codebase. There is no transfer of copyright, but making a PR is an acknowledgement of granting a general MIT licence to the contributed code. Add yourself to the `LICENCE``.
