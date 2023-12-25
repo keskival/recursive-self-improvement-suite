@@ -76,3 +76,105 @@ Test: %%%test%%%
 code_llama_example_generate_solution_prompt = """\
 You are an expert Python programmer, and here is your task: {task}
 Your code should pass these tests:\n\n{tests}\nYour code should start with a [PYTHON] tag and end with a [/PYTHON] tag."""
+
+# We need to generate the following:
+# - Programming challenges
+# - Evaluation functions where the programming challenge is known.
+# - Solutions, where both the challenge and the evaluation function is known.
+# We also need prompts to evaluate the quality of all three in relation to each others, by producing rankings for:
+# - Programming challenges by a specific list of criteria.
+# - Evaluation functions, when both the challenge and a sample solution are also given.
+# - Solutions, where the challenge, the evaluation function, and the evaluation function output are also given.
+# In addition we need a prompt to rank the rankings of each of the three ranking responses based on a given list of criteria.
+
+# The problem here is that OpenAI GPT-x models are trained to not hallucinate, which
+# makes them really bad at improvisation which is a skill needed here.
+# No matter, we'll train the skill of improvisation back into the LLM model under training.
+# For context size limit reasons we'll need to focus on challenges with short solutions.
+# Note that initially we don't specify the JSON Schema, and let the bot to decide it. After that, we codify that schema.
+generate_challenges = """\
+Please help me generate some open-ended programming challenges in Python.
+The challenges shouldn't be puzzles, but components in a real-world application.
+The skillset needed to solve the programming challenge shouldn't only involve specific libraries or frameworks,
+but also should show domain understanding and understanding of user needs.
+Solutions to the challenge should be implementable with a few lines of code using a single function entrypoint,
+because the solutions will be automatically evaluated.
+Now, please give me 5 programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
+"""
+
+generate_evaluation_functions = """\
+Here is a programming challenge:
+<challenge>
+{challenge}
+</challenge>
+I need you to produce a small Python code which runs the function and prints out evaluation results for it.
+Answer just by giving the Python code without Markdown notation or anything else.
+"""
+
+generate_solutions = """\
+Here is a programming challenge:
+<challenge>
+{challenge}
+</challenge>
+Here is the code used to evaluate your solution:
+<evaluation-function>
+{evaluation_function}
+</evaluation-function>
+
+I need you to produce a small Python code which solves the given problem as evaluated by the evaluation code.
+Answer just by giving the Python code without Markdown notation or anything else.
+"""
+
+evaluate_challenges = """\
+Here are some programming challenges which need to be evaluated and ranked:
+<challenges>
+{challenges}
+</challenges>
+Please choose the best five. Evaluate the challenges based on the following criteria:
+- Innovativeness and novelty. The challenge should not be very similar to known interview questions, or programming puzzles.
+- Requires various skills and domain knowledge to solve well.
+- Can be solved with few lines of code with a single function call entrypoint.
+Now, please produce a JSON response without Markdown notation which refers to the best five challenges from this set by id, along with rationales.
+"""
+
+evaluate_evaluation_functions = """\
+Here is a programming challenge, a set of evaluation functions and a sample solution for it:
+<challenge>
+{challenge}
+</challenge>
+<evaluation-functions>
+{evaluation_functions}
+</evaluation-functions>
+<sample-solution>
+{sample_solution}
+</sample-solution>
+Please choose the best evaluation function which evaluates the quality of the sample solution.
+Produce the response in plain JSON without Markdown notation.
+"""
+
+evaluate_solutions = """\
+Here is a programming challenge, an evaluation function and a set of sample solutions for it:
+<challenge>
+{challenge}
+</challenge>
+<evaluation-function>
+{evaluation_function}
+</evaluation-function>
+<sample-solutions-with-evaluation-function-outputs>
+{sample_solutions_with_evaluation_function_outputs}
+</sample-solutions-with-evaluation-function-outputs>
+Please choose the best sample solution.
+Produce the response in plain JSON without Markdown notation.
+"""
+
+evaluate_challenge_ranking = """\
+TODO
+"""
+
+evaluate_solution_ranking = """\
+TODO
+"""
+
+evaluate_evaluation_function_ranking = """\
+TODO
+"""
