@@ -40,6 +40,11 @@ Some notes about fine-tuning process:
   * Make the LLM also rank the rankings.
   * See also: [AgentBench](https://github.com/THUDM/AgentBench)
 
+## Usage
+
+It's not yet implemented to the point where it does much, but you'll need to add your own OpenAI API key
+to the file `python/apikey.json`. See `python/apikey.json.example` for an example.
+
 ## Reference
 
 Recursive Self-improvement Suite

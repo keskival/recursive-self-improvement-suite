@@ -1,0 +1,5 @@
+{
+  "apikey": "YOUR-API-KEY-HERE",
+  "org": "YOUR-ORG-ID-HERE",
+  "model": "gpt-3.5-turbo"
+}
