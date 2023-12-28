@@ -164,17 +164,54 @@ Here is a programming challenge, an evaluation function and a set of sample solu
 {sample_solutions_with_evaluation_function_outputs}
 </sample-solutions-with-evaluation-function-outputs>
 Please choose the best sample solution.
-Produce the response in plain JSON without Markdown notation.
+Produce the sample solution id in plain JSON without Markdown notation.
 """
 
+# Note that rankings include rationales for rankings which makes it easier to decide which one is the best.
 evaluate_challenge_ranking = """\
-TODO
+Here is a set of programming challenges:
+<challenges>
+{challenges}
+</challenges>
+<rankings>
+{rankings}
+</rankings>
+Please choose the best ranking for the challenges.
+Produce the ranking id in plain JSON without Markdown notation.
 """
 
 evaluate_solution_ranking = """\
-TODO
+Here is a programming challenge, an evaluation function, a set of sample solutions for it, and a set of rankings for the sample solutions:
+<challenge>
+{challenge}
+</challenge>
+<evaluation-function>
+{evaluation_function}
+</evaluation-function>
+<sample-solutions-with-evaluation-function-outputs>
+{sample_solutions_with_evaluation_function_outputs}
+</sample-solutions-with-evaluation-function-outputs>
+<sample-rankings-of-solutions>
+{sample_rankings_of_solutions}
+</sample-rankings-of-solutions>
+Please choose the best ranking for the solutions.
+Produce the ranking id in plain JSON without Markdown notation.
 """
 
 evaluate_evaluation_function_ranking = """\
-TODO
+Here is a programming challenge, a sample solution for it, a set of evaluation functions with their outputs for the sample solution, and a set of rankings for the evaluation functions:
+<challenge>
+{challenge}
+</challenge>
+<sample-solution>
+{sample_solution}
+</sample-solution>
+<evaluation-functions-with-outputs>
+{evaluation_functions_with_outputs}
+</evaluation-functions-with_outputs>
+<sample-rankings-of-evaluation-functions>
+{sample_rankings_of_evaluation_functions}
+</sample-rankings-of-evaluation-functions>
+Please choose the best ranking for the evaluation functions.
+Produce the ranking id in plain JSON without Markdown notation.
 """
