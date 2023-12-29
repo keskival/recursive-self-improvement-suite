@@ -25,6 +25,7 @@ Some notes about fine-tuning process:
 - "Unleashed" tasks need to be prefixed with tokens forming the word "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
 - In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example Direct Preference Optimization can be used, or any reinforcement learning algorithm.
 - Most tasks are based on generating a large pool of heterogeneous challenges, problems or questions to answer.
+- We also need to combat mode collapse by making the system evaluate creativity and variability in sets of generations.
 
 ## Tasks to be Implemented
 
@@ -33,19 +34,27 @@ Some notes about fine-tuning process:
   * Make the LLM also rank the challenges and the unit tests.
   * Make the LLM also rank the rankings.
   * See also: [Code Llama](https://ai.meta.com/research/publications/code-llama-open-foundation-models-for-code/)
+  * Train the LLM to produce the better programming challenges with better unit tests, and better rankings.
 - Social games
   * Generate multi-agent social games.
   * Make the LLM rank the player performances, or generate procedural rules to determine the winner.
   * Make the LLM also rank the games based on how rich and challenging they are, and how many generalist skills they require.
   * Make the LLM also rank the rankings.
   * See also: [AgentBench](https://github.com/THUDM/AgentBench)
+  * Train the LLM to produce the better performances, and better rankings.
 - Predict what a Python code outputs
   * Generate questions and short python programs to answer them.
   * Make the LLM also rank the questions and the python programs based on suitable criteria.
   * Make the LLM predict the output.
   * Rank the output predictions based on real outputs.
   * Make the LLM also rank the rankings.
- 
+  * Train the LLM to produce the predictions, and better rankings of questions and answers.
+- Trivia (for maintaining knowledge of facts and question answering)
+  * Generate questions and answers conditioned by a random page in Wikipedia.
+  * Make the LLM also rank the questions and answers based on suitable criteria.
+  * Make the LLM also rank the rankings.
+  * Train the LLM to produce the better answers for better questions, and better rankings of questions and answers.
+
 ## Usage
 
 It's not yet implemented to the point where it does much, but you'll need to add your own OpenAI API key
