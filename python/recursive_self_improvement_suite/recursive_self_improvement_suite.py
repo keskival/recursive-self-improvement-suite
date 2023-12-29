@@ -4,20 +4,18 @@ import openai
 import json
 import time
 
-with open('apikey.json', 'r') as apikey_file:
-  config = json.load(apikey_file)
-  openai.api_key  = config['apikey']
-  openai.organization = config['org']
-  model = config['model']
+with open("apikey.json", "r") as apikey_file:
+    config = json.load(apikey_file)
+    openai.api_key = config["apikey"]
+    openai.organization = config["org"]
+    model = config["model"]
+
 
 def chat(messages):
-    while (trials < 5):
+    while trials < 5:
         try:
             completion = openai.ChatCompletion.create(
-                model=model,
-                messages=messages,
-                max_tokens=2,
-                temperature=0.1
+                model=model, messages=messages, max_tokens=2, temperature=0.1
             )
             print(completion)
         except Exception as e:
@@ -29,12 +27,15 @@ def chat(messages):
     return completion
 
 
-prompt = [{
-  "role": "system",
-  "content": """\
-"""
-},
-{
-  "role": "user",
-  "content": """"\
-"""}]
+prompt = [
+    {
+        "role": "system",
+        "content": """\
+""",
+    },
+    {
+        "role": "user",
+        "content": """"\
+""",
+    },
+]

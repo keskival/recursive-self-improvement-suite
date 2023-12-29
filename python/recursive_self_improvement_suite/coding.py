@@ -1,5 +1,7 @@
 """Coding task prompts."""
 
+from typing import List
+
 # The Code Llama prompts are given here as an inspiration, not something we want to follow.
 # We need to make at least the following improvements:
 # - The problems need to be open-ended, not simple interview questions with one correct answer.
@@ -92,7 +94,10 @@ Your code should pass these tests:\n\n{tests}\nYour code should start with a [PY
 # No matter, we'll train the skill of improvisation back into the LLM model under training.
 # For context size limit reasons we'll need to focus on challenges with short solutions.
 # Note that initially we don't specify the JSON Schema, and let the bot to decide it. After that, we codify that schema.
-generate_challenges = """\
+
+
+def generate_challenges():
+    return """\
 Please help me generate some open-ended programming challenges in Python.
 The challenges shouldn't be puzzles, but components in a real-world application.
 The skillset needed to solve the programming challenge shouldn't only involve specific libraries or frameworks,
@@ -102,7 +107,9 @@ because the solutions will be automatically evaluated.
 Now, please give me 5 programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
 """
 
-generate_evaluation_functions = """\
+
+def generate_evaluation_functions(challenge: str):
+    return f"""\
 Here is a programming challenge:
 <challenge>
 {challenge}
@@ -111,7 +118,9 @@ I need you to produce a small Python code which runs the function and prints out
 Answer just by giving the Python code without Markdown notation or anything else.
 """
 
-generate_solutions = """\
+
+def generate_solutions(challenge: str, evaluation_function: str):
+    return f"""\
 Here is a programming challenge:
 <challenge>
 {challenge}
@@ -125,7 +134,9 @@ I need you to produce a small Python code which solves the given problem as eval
 Answer just by giving the Python code without Markdown notation or anything else.
 """
 
-evaluate_challenges = """\
+
+def evaluate_challenges(challenges: List[str]):
+    return f"""\
 Here are some programming challenges which need to be evaluated and ranked:
 <challenges>
 {challenges}
@@ -137,7 +148,11 @@ Please choose the best five. Evaluate the challenges based on the following crit
 Now, please produce a JSON response without Markdown notation which refers to the best five challenges from this set by id, along with rationales.
 """
 
-evaluate_evaluation_functions = """\
+
+def evaluate_evaluation_functions(
+    challenge: str, evaluation_functions: List[str], sample_solution: str
+):
+    return f"""\
 Here is a programming challenge, a set of evaluation functions and a sample solution for it:
 <challenge>
 {challenge}
@@ -152,7 +167,13 @@ Please choose the best evaluation function which evaluates the quality of the sa
 Produce the response in plain JSON without Markdown notation.
 """
 
-evaluate_solutions = """\
+
+def evaluate_solutions(
+    challenge: str,
+    evaluation_function: str,
+    sample_solutions_with_evaluation_function_outputs: str,
+):
+    return f"""\
 Here is a programming challenge, an evaluation function and a set of sample solutions for it:
 <challenge>
 {challenge}
@@ -167,8 +188,10 @@ Please choose the best sample solution.
 Produce the sample solution id in plain JSON without Markdown notation.
 """
 
+
 # Note that rankings include rationales for rankings which makes it easier to decide which one is the best.
-evaluate_challenge_ranking = """\
+def evaluate_challenge_ranking(challenges: List[str], rankings: List[str]):
+    return f"""\
 Here is a set of programming challenges:
 <challenges>
 {challenges}
@@ -180,7 +203,14 @@ Please choose the best ranking for the challenges.
 Produce the ranking id in plain JSON without Markdown notation.
 """
 
-evaluate_solution_ranking = """\
+
+def evaluate_solution_ranking(
+    challenge: str,
+    evaluation_function: str,
+    sample_solutions_with_evaluation_function_outputs: List[str],
+    sample_rankings_of_solutions: List[str],
+):
+    return f"""\
 Here is a programming challenge, an evaluation function, a set of sample solutions for it, and a set of rankings for the sample solutions:
 <challenge>
 {challenge}
@@ -198,7 +228,14 @@ Please choose the best ranking for the solutions.
 Produce the ranking id in plain JSON without Markdown notation.
 """
 
-evaluate_evaluation_function_ranking = """\
+
+def evaluate_evaluation_function_ranking(
+    challenge: str,
+    sample_solution: str,
+    evaluation_functions_with_outputs: str,
+    sample_rankings_of_evaluation_functions: List[str],
+):
+    return f"""\
 Here is a programming challenge, a sample solution for it, a set of evaluation functions with their outputs for the sample solution, and a set of rankings for the evaluation functions:
 <challenge>
 {challenge}
