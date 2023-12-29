@@ -45,6 +45,11 @@ Some notes about fine-tuning process:
 It's not yet implemented to the point where it does much, but you'll need to add your own OpenAI API key
 to the file `python/apikey.json`. See `python/apikey.json.example` for an example.
 
+Then you can run some initial functionality with this command in the `python` directory:
+```bash
+python -m recursive_self_improvement_suite.recursive_self_improvement_suite
+```
+
 ## Reference
 
 Recursive Self-improvement Suite
