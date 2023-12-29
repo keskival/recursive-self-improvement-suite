@@ -39,7 +39,13 @@ Some notes about fine-tuning process:
   * Make the LLM also rank the games based on how rich and challenging they are, and how many generalist skills they require.
   * Make the LLM also rank the rankings.
   * See also: [AgentBench](https://github.com/THUDM/AgentBench)
-
+- Predict what a Python code outputs
+  * Generate questions and short python programs to answer them.
+  * Make the LLM also rank the questions and the python programs based on suitable criteria.
+  * Make the LLM predict the output.
+  * Rank the output predictions based on real outputs.
+  * Make the LLM also rank the rankings.
+ 
 ## Usage
 
 It's not yet implemented to the point where it does much, but you'll need to add your own OpenAI API key
