@@ -137,6 +137,7 @@ Here is a programming challenge:
 {challenge}
 </challenge>
 I need you to produce a small Python code which runs the function and prints out evaluation results for it.
+Do not produce the expected output, just the plain Python code which prints out the results of running the code.
 Answer just by giving the Python code with Markdown notation.
 """
 
@@ -183,8 +184,7 @@ Here is a programming challenge, and a set of evaluation functions:
 {evaluation_functions}
 </evaluation-functions>
 Please choose the best evaluation function which evaluates the quality of the sample solution in the most suitable manner.
-You must refer to the best evaluation function by its id.
-Produce the response in plain JSON without Markdown notation.
+Produce the best evaluation function id in a valid JSON object without Markdown notation.
 """
 
 
@@ -205,7 +205,7 @@ Here is a programming challenge, an evaluation function and a set of sample solu
 {sample_solutions_with_evaluation_function_outputs}
 </sample-solutions-with-evaluation-function-outputs>
 Please choose the best sample solution.
-Produce the sample solution id in plain JSON without Markdown notation.
+Produce the sample solution id in a valid JSON object without Markdown notation.
 """
 
 
