@@ -22,7 +22,8 @@ def chat(messages):
         {
             "role": "system",
             "content": """\
-You are a component in a system of training exercises. You answer concisely without pleasantries or Markdown notation.
+You are a component in a system of training exercises. You answer concisely without pleasantries.
+You will produce either JSON responses without Markdown notation, or Python code in Markdown blocks.
 """,
         },
     ] + list(map(lambda message: {
@@ -47,12 +48,40 @@ You are a component in a system of training exercises. You answer concisely with
 
 def coding_improvement_iteration():
     challenges_prompt = coding.generate_challenges()
-    challenges = chat([challenges_prompt])
+    challenges = json.loads(chat([challenges_prompt]))
     logging.info(f"Challenges: {challenges}")
-    evaluation_functions_prompts = list(map(lambda challenge: coding.generate_evaluation_functions(challenge), challenges))
-    logging.info(f"Evaluation_functions_prompts: {evaluation_functions_prompts}")
-    solutions_prompts = list(map(lambda challenge: coding.generate_solutions(challenge, "TODO"), challenges))
-    logging.info(f"Solutions_prompts: {solutions_prompts}")
+    
+    # Let's only pick 5 best challenges out of 10.
+    evaluate_challenges_prompt = coding.evaluate_challenges(challenges, 5)
+    best_n_challenges = json.loads(chat([evaluate_challenges_prompt]))
+    logging.info(f"Best n challenges: {best_n_challenges}")
+    # TODO: Filter out the worse challenges here.
 
+    for challenge in challenges:
+        # For each challenge we want to create a set of evaluation functions, and choose the best one.
+        number_of_evaluation_functions = 5
+        evaluation_function_prompt = coding.generate_evaluation_function(challenge)
+        evaluation_functions = [chat([evaluation_function_prompt]) for _ in range(number_of_evaluation_functions)]
+        logging.info(f"Evaluation_functions: {evaluation_functions}")
+
+        evaluate_evaluation_functions_prompt = coding.evaluate_evaluation_functions(
+            challenge,
+            [{"id": id, "evaluation_function": evaluation_function} for id, evaluation_function in enumerate(evaluation_functions)])
+        best_evaluation_function_id = json.loads(chat([evaluate_evaluation_functions_prompt]))
+        # TODO: Pick the best evaluation function.
+        best_evaluation_function = evaluation_functions[0]
+        logging.info(f"Best evaluation function: {best_evaluation_function}")
+        solution_prompt = coding.generate_solutions(challenge, best_evaluation_function)
+        number_of_solutions = 5
+        solutions = [chat([solution_prompt]) for _ in range(number_of_solutions)]
+        logging.info(f"Solutions: {solutions}")
+        evaluate_solutions_prompt = coding.evaluate_solutions(challenge, best_evaluation_function, solutions)
+        best_solution = json.loads(chat([evaluate_solutions_prompt]))
+        # TODO: Pick the best solution for the continuation.
+        # TODO: Evaluate the rankings.
+    # TODO: This is just one prototype iteration. Ultimately, after tuning prompts and all, we aim to collect
+    #       the good trajectories and fine-tune the model with those. This will make the model better at the tasks and
+    #       also in evaluation of the tasks over each iteration.
+    
 if __name__ == "__main__":
     coding_improvement_iteration()

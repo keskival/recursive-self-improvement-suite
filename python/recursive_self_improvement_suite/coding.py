@@ -96,26 +96,48 @@ Your code should pass these tests:\n\n{tests}\nYour code should start with a [PY
 # Note that initially we don't specify the JSON Schema, and let the bot to decide it. After that, we codify that schema.
 
 
-def generate_challenges():
-    return """\
+def generate_challenges(n: int = 10):
+    schema = """\
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "description": {
+        "type": "string"
+      }
+    },
+    "required": ["id", "description"],
+    "additionalProperties": false
+  }
+}
+"""
+    return f"""\
 Please help me generate some open-ended programming challenges in Python.
 The challenges shouldn't be puzzles, but components in a real-world application.
 The skillset needed to solve the programming challenge shouldn't only involve specific libraries or frameworks,
 but also should show domain understanding and understanding of user needs.
 Solutions to the challenge should be implementable with a few lines of code using a single function entrypoint,
 because the solutions will be automatically evaluated.
-Now, please give me 5 programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
+Now, please give me {n} programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
 """
 
-
-def generate_evaluation_functions(challenge: str):
+def generate_evaluation_function(challenge: str):
     return f"""\
 Here is a programming challenge:
 <challenge>
 {challenge}
 </challenge>
 I need you to produce a small Python code which runs the function and prints out evaluation results for it.
-Answer just by giving the Python code without Markdown notation or anything else.
+Answer just by giving the Python code with Markdown notation.
 """
 
 
@@ -131,11 +153,11 @@ Here is the code used to evaluate your solution:
 </evaluation-function>
 
 I need you to produce a small Python code which solves the given problem as evaluated by the evaluation code.
-Answer just by giving the Python code without Markdown notation or anything else.
+Answer just by giving the Python code with Markdown notation.
 """
 
 
-def evaluate_challenges(challenges: List[str]):
+def evaluate_challenges(challenges: List[str], n: int = 5):
     return f"""\
 Here are some programming challenges which need to be evaluated and ranked:
 <challenges>
@@ -145,25 +167,23 @@ Please choose the best five. Evaluate the challenges based on the following crit
 - Innovativeness and novelty. The challenge should not be very similar to known interview questions, or programming puzzles.
 - Requires various skills and domain knowledge to solve well.
 - Can be solved with few lines of code with a single function call entrypoint.
-Now, please produce a JSON response without Markdown notation which refers to the best five challenges from this set by id, along with rationales.
+Now, please produce a JSON response without Markdown notation which refers to the best {n} challenges from this set by id, along with rationales.
 """
 
 
 def evaluate_evaluation_functions(
-    challenge: str, evaluation_functions: List[str], sample_solution: str
+    challenge: str, evaluation_functions: List[str]
 ):
     return f"""\
-Here is a programming challenge, a set of evaluation functions and a sample solution for it:
+Here is a programming challenge, and a set of evaluation functions:
 <challenge>
 {challenge}
 </challenge>
 <evaluation-functions>
 {evaluation_functions}
 </evaluation-functions>
-<sample-solution>
-{sample_solution}
-</sample-solution>
-Please choose the best evaluation function which evaluates the quality of the sample solution.
+Please choose the best evaluation function which evaluates the quality of the sample solution in the most suitable manner.
+You must refer to the best evaluation function by its id.
 Produce the response in plain JSON without Markdown notation.
 """
 
