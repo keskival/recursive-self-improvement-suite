@@ -102,8 +102,7 @@ def coding_improvement_iteration():
             chat([evaluate_evaluation_functions_prompt])
         )
         logging.info(f"Best evaluation function id: {best_evaluation_function_id}")
-        # TODO: Pick the best evaluation function.
-        best_evaluation_function = evaluation_functions[0]
+        best_evaluation_function = evaluation_functions[best_evaluation_function_id["best_evaluation_function_id"]]
         logging.info(f"Best evaluation function: {best_evaluation_function}")
         solution_prompt = coding.generate_solutions(challenge, best_evaluation_function)
         number_of_solutions = 5
