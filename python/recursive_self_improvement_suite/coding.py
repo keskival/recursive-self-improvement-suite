@@ -135,6 +135,7 @@ Your output must conform exactly to the following JSON Schema:
 Now, please give me {n} programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
 """
 
+
 def generate_evaluation_function(challenge: str):
     return f"""\
 Here is a programming challenge:
@@ -173,7 +174,7 @@ def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int 
     "properties": {{
       "id": {{
         "type": "string",
-        "enum": [{challenge_ids}]
+        "enum": {challenge_ids}
       }},
       "rationale": {{
         "type": "string"
@@ -202,8 +203,25 @@ Now, please produce a JSON response without Markdown notation which refers to th
 
 
 def evaluate_evaluation_functions(
-    challenge: str, evaluation_functions: List[str]
+    challenge: str, evaluation_functions: List[str], evaluation_function_ids: List[int]
 ):
+    schema = f"""
+{{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {{
+    "best_evaluation_function_id": {{
+      "type": "integer",
+      "enum": {evaluation_function_ids}
+    }},
+    "rationale": {{
+      "type": "string"
+    }}
+  }},
+  "required": ["best_evaluation_function_id", "rationale"],
+  "additionalProperties": false
+}}
+"""
     return f"""\
 Here is a programming challenge, and a set of evaluation functions:
 <challenge>
@@ -212,6 +230,10 @@ Here is a programming challenge, and a set of evaluation functions:
 <evaluation-functions>
 {evaluation_functions}
 </evaluation-functions>
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
 Please choose the best evaluation function which evaluates the quality of the sample solution in the most suitable manner.
 Produce the best evaluation function id in a valid JSON object without Markdown notation.
 """
