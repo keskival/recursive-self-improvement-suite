@@ -50,9 +50,10 @@ def coding_improvement_iteration():
     challenges_prompt = coding.generate_challenges()
     challenges = json.loads(chat([challenges_prompt]))
     logging.info(f"Challenges: {challenges}")
+    challenge_ids = list(map(lambda challenge: challenge["id"], challenges))
     
     # Let's only pick 5 best challenges out of 10.
-    evaluate_challenges_prompt = coding.evaluate_challenges(challenges, 5)
+    evaluate_challenges_prompt = coding.evaluate_challenges(challenges, challenge_ids, 5)
     best_n_challenges = json.loads(chat([evaluate_challenges_prompt]))
     logging.info(f"Best n challenges: {best_n_challenges}")
     # TODO: Filter out the worse challenges here.

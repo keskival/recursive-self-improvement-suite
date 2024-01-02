@@ -104,6 +104,9 @@ def generate_challenges(n: int = 10):
   "items": {
     "type": "object",
     "properties": {
+      "domain": {
+        "type": "string"
+      },
       "id": {
         "type": "string"
       },
@@ -119,10 +122,12 @@ def generate_challenges(n: int = 10):
     return f"""\
 Please help me generate some open-ended programming challenges in Python.
 The challenges shouldn't be puzzles, but components in a real-world application.
-The skillset needed to solve the programming challenge shouldn't only involve specific libraries or frameworks,
+Choose a domain, like supply chain, medical systems, computer aided design, or anything else,
+and produce a programming challenge for that domain.
+The skillset needed to solve the programming challenge should involve specific libraries or frameworks,
 but also should show domain understanding and understanding of user needs.
-Solutions to the challenge should be implementable with a few lines of code using a single function entrypoint,
-because the solutions will be automatically evaluated.
+Solutions to the challenge should be implementable with some lines of code using a single function entrypoint,
+although multiple functions are allowed, because the solutions will be automatically evaluated.
 Your output must conform exactly to the following JSON Schema:
 <JSON-Schema>
 {schema}
@@ -158,13 +163,37 @@ Answer just by giving the Python code with Markdown notation.
 """
 
 
-def evaluate_challenges(challenges: List[str], n: int = 5):
+def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int = 5):
+    schema = f"""\
+{{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {{
+    "type": "object",
+    "properties": {{
+      "id": {{
+        "type": "string",
+        "enum": [{challenge_ids}]
+      }},
+      "rationale": {{
+        "type": "string"
+      }}
+    }},
+    "required": ["id", "rationale"],
+    "additionalProperties": false
+  }}
+}}
+"""
     return f"""\
 Here are some programming challenges which need to be evaluated and ranked:
 <challenges>
 {challenges}
 </challenges>
-Please choose the best five. Evaluate the challenges based on the following criteria:
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
+Please choose the best {n}. Evaluate the challenges based on the following criteria:
 - Innovativeness and novelty. The challenge should not be very similar to known interview questions, or programming puzzles.
 - Requires various skills and domain knowledge to solve well.
 - Can be solved with few lines of code with a single function call entrypoint.
