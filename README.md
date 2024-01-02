@@ -136,4 +136,4 @@ Recursive Self-improvement Suite
 
 ## How to Contribute
 
-Just make a PR. Making a PR is an acknowledgement that the contribution can be added as-is or in a modified form to the codebase. There is no transfer of copyright, but making a PR is an acknowledgement of granting a general MIT licence to the contributed code. Add yourself to the `LICENCE``.
+Just make a PR. Making a PR is an acknowledgement that the contribution can be added as-is or in a modified form to the codebase. There is no transfer of copyright, but making a PR is an acknowledgement of granting a general MIT licence to the contributed code. Add yourself to the `LICENCE`.
