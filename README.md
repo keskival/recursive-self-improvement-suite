@@ -30,11 +30,11 @@ Some notes about fine-tuning process:
 ## Tasks to be Implemented
 
 - Programming
-  * Generate programming challenges and related unit tests in various languages and simulated deployment environments and integrations.
-  * Make the LLM also rank the challenges and the unit tests.
+  * Generate programming challenges and related validators in various languages and simulated deployment environments and integrations.
+  * Make the LLM also rank the challenges and the validators.
   * Make the LLM also rank the rankings.
   * See also: [Code Llama](https://ai.meta.com/research/publications/code-llama-open-foundation-models-for-code/)
-  * Train the LLM to produce the better programming challenges with better unit tests, and better rankings.
+  * Train the LLM to produce the better programming challenges with better validators, and better rankings.
 - Social games
   * Generate multi-agent social games.
   * Make the LLM rank the player performances, or generate procedural rules to determine the winner.
