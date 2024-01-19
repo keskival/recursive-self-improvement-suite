@@ -94,6 +94,7 @@ Recursive Self-improvement Suite
 - [Beyond Human Data: Scaling Self-Training for Problem-Solving with Language Models](https://arxiv.org/abs/2312.06585)
 - [Weak-to-strong generalization](https://github.com/openai/weak-to-strong)
 - [Vision-Language Models as a Source of Rewards](https://arxiv.org/abs/2312.09187)
+- [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020v1)
 
 ## Related Posts
 
@@ -133,6 +134,7 @@ Recursive Self-improvement Suite
 - [https://www.linkedin.com/posts/terokeskivalkama_autoregressive-text-prediction-is-a-very-activity-7144406057807761408-tJdL](https://www.linkedin.com/posts/terokeskivalkama_autoregressive-text-prediction-is-a-very-activity-7144406057807761408-tJdL)
 - [https://www.linkedin.com/posts/terokeskivalkama_vision-language-models-as-a-source-of-rewards-activity-7143931901576220672-T1i9](https://www.linkedin.com/posts/terokeskivalkama_vision-language-models-as-a-source-of-rewards-activity-7143931901576220672-T1i9)
 - [https://www.linkedin.com/posts/terokeskivalkama_we-still-have-a-week-to-meet-my-prediction-activity-7144617645747728384-yo-4](https://www.linkedin.com/posts/terokeskivalkama_we-still-have-a-week-to-meet-my-prediction-activity-7144617645747728384-yo-4)
+- [https://www.linkedin.com/posts/terokeskivalkama_self-rewarding-language-models-activity-7154017704729849856-f777](https://www.linkedin.com/posts/terokeskivalkama_self-rewarding-language-models-activity-7154017704729849856-f777)
 
 ## How to Contribute
 
