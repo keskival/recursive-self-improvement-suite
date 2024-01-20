@@ -38,6 +38,7 @@ Some notes about fine-tuning process:
 - Social games
   * Generate multi-agent social games.
   * Make the LLM rank the player performances, or generate procedural rules to determine the winner.
+  * One important aspect to judge is ethical conduct in an agentic setting, which is missing from all current generation alignment procedures.
   * Make the LLM also rank the games based on how rich and challenging they are, and how many generalist skills they require.
   * Make the LLM also rank the rankings.
   * See also: [AgentBench](https://github.com/THUDM/AgentBench)
