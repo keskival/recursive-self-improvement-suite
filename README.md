@@ -20,13 +20,6 @@ The tasks can be roughly categorized into groups:
 
 These tasks should be used to fine-tune a pre-trained LLM chatbot which has been instruct-tuned.
 
-Some notes about fine-tuning process:
-- Fine-tuning with these open-ended "unleashed" tasks need to be interlaced with traditional LLM tasks and all other tasks of different kinds to prevent catastrophic forgetting of baseline knowledge and skills.
-- "Unleashed" tasks need to be prefixed with tokens forming the word "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
-- In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example Direct Preference Optimization can be used, or any reinforcement learning algorithm.
-- Most tasks are based on generating a large pool of heterogeneous challenges, problems or questions to answer.
-- We also need to combat mode collapse by making the system evaluate creativity and variability in sets of generations.
-
 ## Tasks to be Implemented
 
 - Programming
@@ -55,6 +48,25 @@ Some notes about fine-tuning process:
   * Make the LLM also rank the questions and answers based on suitable criteria.
   * Make the LLM also rank the rankings.
   * Train the LLM to produce the better answers for better questions, and better rankings of questions and answers.
+
+## What Kind of Data We Want Out
+
+The prompting should generate synthetic data which is useful for recursive fine-tuning of an LLM model.
+
+That means a large volume of good and better performances of a task, where the better performance is labelled. This is useful for [Direct Preference Optimization](https://arxiv.org/abs/2305.18290). According to [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020v1) such data are more useful for fine-tuning the models than simply good performances in isolation.
+
+## How to Fine-tune
+
+There are many methods, and models served behind APIs such as OpenAI models generally only allow normal supervised fine-tuning.
+
+We can use [LoRA](https://arxiv.org/abs/2106.09685) or similar adapters, but it is the best if our fine-tuning process allows contrastive fine-tuning in the style of [DPO](https://arxiv.org/abs/2305.18290), where we benefit not only from an example of a good performance but also a direction, which gives a better gradient towards even better performances.
+
+Some notes about fine-tuning process:
+- Fine-tuning with these open-ended "unleashed" tasks need to be interlaced with traditional LLM tasks and all other tasks of different kinds to prevent catastrophic forgetting of baseline knowledge and skills.
+- "Unleashed" tasks need to be prefixed with tokens forming the word "UNLEASHED:" so that the LLM understands that this task is evaluated in an open-ended fashion and it should not try to emulate human-level behavior. This prefix should be used in the trained model use cases where superhuman performance is desired.
+- In most tasks, a set of LLMs or a single LLM with a non-zero temperature needs to be used to produce multiple possible solutions, answers or trajectories, and regardless of which method is used to produce the ranking of these solutions, a contrastive method should be used to fine-tune the model so that the relative generation likelihood of the best generation sequence increases in relation to the worse generation sequences. For example [Direct Preference Optimization](https://arxiv.org/abs/2305.18290) can be used, or any contrastive reinforcement learning algorithm.
+- Most tasks are based on generating a large pool of heterogeneous challenges, problems or questions to answer.
+- We also need to combat mode collapse by making the system evaluate creativity and variability in sets of generations.
 
 ## Usage
 
