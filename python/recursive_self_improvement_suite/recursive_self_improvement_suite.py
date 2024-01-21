@@ -83,7 +83,9 @@ def coding_improvement_iteration():
     for challenge in best_n_challenges:
         # For each challenge we want to create a set of evaluation functions, and choose the best one.
         number_of_evaluation_functions = 5
-        number_of_rankings = 5
+        number_of_rankings = 2
+        number_of_evaluation_rankings = 2
+        
         evaluation_function_prompt = coding.generate_evaluation_function(challenge)
         evaluation_functions = [
             chat([evaluation_function_prompt])
@@ -116,8 +118,15 @@ def coding_improvement_iteration():
             challenge, best_evaluation_function, solutions
         )
         solution_evaluations = [chat([evaluate_solutions_prompt]) for _ in range(number_of_rankings)]
-        best_solution_id = json.loads(chat([evaluate_solutions_prompt]))
 
+        # TODO: Run the evaluation functions and add their outputs to the solutions.
+        solutions_with_evaluation_function_outputs = solutions
+        # TODO: Then we rank evaluations, i.e. rankings.
+        ranking_evaluations_prompt = coding.evaluate_solution_ranking(challenge, best_evaluation_function, solutions, solution_evaluations)
+        rankings_of_evaluations = [chat([ranking_evaluations_prompt]) for _ in range(number_of_evaluation_rankings)]
+        logging.info(f"Rankings_of_evaluations: {rankings_of_evaluations}")
+
+        best_solution_id = json.loads(chat([evaluate_solutions_prompt]))
         logging.info(f"Best_solution_id: {best_solution_id}")
         best_solution = solutions[best_solution_id["best_solution_id"]]
         logging.info(f"Best_solution: {best_solution}")
