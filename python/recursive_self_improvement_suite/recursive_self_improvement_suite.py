@@ -111,7 +111,8 @@ def coding_improvement_iteration():
         evaluate_solutions_prompt = coding.evaluate_solutions(
             challenge, best_evaluation_function, solutions
         )
-        best_solution = json.loads(chat([evaluate_solutions_prompt]))
+        best_solution_id = json.loads(chat([evaluate_solutions_prompt]))
+        logging.info(f"Best_solution_id: {best_solution_id}")
         # TODO: Pick the best solution for the continuation.
         # TODO: Evaluate the rankings.
     # TODO: This is just one prototype iteration. Ultimately, after tuning prompts and all, we aim to collect
