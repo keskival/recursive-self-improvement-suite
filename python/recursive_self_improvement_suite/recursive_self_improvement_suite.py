@@ -83,6 +83,7 @@ def coding_improvement_iteration():
     for challenge in best_n_challenges:
         # For each challenge we want to create a set of evaluation functions, and choose the best one.
         number_of_evaluation_functions = 5
+        number_of_rankings = 5
         evaluation_function_prompt = coding.generate_evaluation_function(challenge)
         evaluation_functions = [
             chat([evaluation_function_prompt])
@@ -104,17 +105,24 @@ def coding_improvement_iteration():
         logging.info(f"Best evaluation function id: {best_evaluation_function_id}")
         best_evaluation_function = evaluation_functions[best_evaluation_function_id["best_evaluation_function_id"]]
         logging.info(f"Best evaluation function: {best_evaluation_function}")
+
+        # Then we generate solutions, using the best evaluation function.
         solution_prompt = coding.generate_solutions(challenge, best_evaluation_function)
         number_of_solutions = 5
         solutions = [chat([solution_prompt]) for _ in range(number_of_solutions)]
         logging.info(f"Solutions: {solutions}")
+
         evaluate_solutions_prompt = coding.evaluate_solutions(
             challenge, best_evaluation_function, solutions
         )
+        solution_evaluations = [chat([evaluate_solutions_prompt]) for _ in range(number_of_rankings)]
         best_solution_id = json.loads(chat([evaluate_solutions_prompt]))
+
         logging.info(f"Best_solution_id: {best_solution_id}")
-        # TODO: Pick the best solution for the continuation.
-        # TODO: Evaluate the rankings.
+        best_solution = solutions[best_solution_id["best_solution_id"]]
+        logging.info(f"Best_solution: {best_solution}")
+
+        # Then we evaluate the solution rankings.
     # TODO: This is just one prototype iteration. Ultimately, after tuning prompts and all, we aim to collect
     #       the good trajectories and fine-tune the model with those. This will make the model better at the tasks and
     #       also in evaluation of the tasks over each iteration.

@@ -172,12 +172,12 @@ def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int 
   "items": {{
     "type": "object",
     "properties": {{
+      "rationale": {{
+        "type": "string"
+      }},
       "id": {{
         "type": "string",
         "enum": {challenge_ids}
-      }},
-      "rationale": {{
-        "type": "string"
       }}
     }},
     "required": ["id", "rationale"],
@@ -198,7 +198,7 @@ Please choose the best {n}. Evaluate the challenges based on the following crite
 - Innovativeness and novelty. The challenge should not be very similar to known interview questions, or programming puzzles.
 - Requires various skills and domain knowledge to solve well.
 - Can be solved with few lines of code with a single function call entrypoint.
-Now, please produce a JSON response without Markdown notation which refers to the best {n} challenges from this set by id, along with rationales.
+Now, please produce a JSON response without Markdown notation which refers to the rationales and the best {n} challenges from this set by id.
 """
 
 
@@ -234,8 +234,8 @@ Your output must conform exactly to the following JSON Schema:
 <JSON-Schema>
 {schema}
 </JSON-Schema>
-Please choose the best evaluation function which evaluates the quality of the sample solution in the most suitable manner.
-Produce the best evaluation function id in a valid JSON object without Markdown notation.
+Please provide a rationale and choose the best evaluation function which evaluates the quality of the sample solution in the most suitable manner.
+Produce the rationale and the best evaluation function id in a valid JSON object without Markdown notation.
 """
 
 
@@ -255,8 +255,8 @@ Here is a programming challenge, an evaluation function and a set of sample solu
 <sample-solutions-with-evaluation-function-outputs>
 {sample_solutions_with_evaluation_function_outputs}
 </sample-solutions-with-evaluation-function-outputs>
-Please choose the best sample solution.
-Produce the sample solution id in a valid JSON object without Markdown notation.
+Please provide a rationale for the best sample solution and produce its id.
+Produce the rationale and the sample solution id in a valid JSON object without Markdown notation.
 """
 
 
@@ -270,8 +270,8 @@ Here is a set of programming challenges:
 <rankings>
 {rankings}
 </rankings>
-Please choose the best ranking for the challenges.
-Produce the ranking id in plain JSON without Markdown notation.
+Please provide a rationale for the best challenge ranking and provide the best ranking id for the challenges.
+Produce the rationale and the ranking id in plain JSON without Markdown notation.
 """
 
 
@@ -295,8 +295,8 @@ Here is a programming challenge, an evaluation function, a set of sample solutio
 <sample-rankings-of-solutions>
 {sample_rankings_of_solutions}
 </sample-rankings-of-solutions>
-Please choose the best ranking for the solutions.
-Produce the ranking id in plain JSON without Markdown notation.
+Please provide a rationale and choose the best ranking id for the solutions.
+Produce the rationale and the ranking id in plain JSON without Markdown notation.
 """
 
 
@@ -320,6 +320,6 @@ Here is a programming challenge, a sample solution for it, a set of evaluation f
 <sample-rankings-of-evaluation-functions>
 {sample_rankings_of_evaluation_functions}
 </sample-rankings-of-evaluation-functions>
-Please choose the best ranking for the evaluation functions.
-Produce the ranking id in plain JSON without Markdown notation.
+Please provide a rationale and choose the best ranking for the evaluation functions.
+Produce the rational and the ranking id in plain JSON without Markdown notation.
 """
