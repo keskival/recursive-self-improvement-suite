@@ -45,6 +45,15 @@
 \section{Imitative vs Non-Imitative Training}
 
 \begin{frame}{Imitative vs Non-Imitative Training}
+  \begin{itemize}
+   \item Examples of \textbf{imitative} training: Pre-training of LLMs from web corpuses, instruct-tuning, anything with human generated labels.
+   \item Examples of \textbf{non-imitative} training: \textcolor{blue}{\href{https://arxiv.org/abs/1909.08593}{\textbf{RLHF}}} (but specific in scope and limited by human bandwidth), \textcolor{blue}{\href{https://about.fb.com/news/2023/08/code-llama-ai-for-coding/}{\textbf{Code Llama}}} (but just one small task).
+   \item We need a suite of open-ended, non-imitative tasks with preferential machine judges.
+   \item The tasks can be judged procedurally (like chess), or by LLMs (like social agent tasks).
+   \item If a task is judged by an LLM, the act of judgement must also be judged $\Rightarrow$ \textcolor{blue}{\href{https://github.com/keskival/recursive-self-improvement-suite}{\textbf{Recursive self-improvement}}}.
+   \item The training itself is just fine-tuning for example with \textcolor{blue}{\href{https://arxiv.org/abs/2305.18290}{\textbf{DPO}}}, but it requires access to weights.
+  \end{itemize}
+
 \end{frame}
 
 \section{Recursive Self-Improvement Suite}
