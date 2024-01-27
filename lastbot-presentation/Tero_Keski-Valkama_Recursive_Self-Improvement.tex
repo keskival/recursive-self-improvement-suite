@@ -58,8 +58,22 @@
 
 \section{Recursive Self-Improvement Suite}
 \begin{frame}{Recursive Self-Improvement Suite}
+  \begin{itemize}
+   \item I predicted \textbf{``unambiguous AGI''} to be reached before the end of 2023, because the step to do it is so easy. Sadly the large labs didn't start properly working on it.
+   \item So I started my own project, \textcolor{blue}{\href{https://github.com/keskival/recursive-self-improvement-suite}{Recursive Self-Improvement Suite}}\footnote{Team: Tero Keski-Valkama, Asli Yaman}, to show it how it's done.
+   \item It's a work in progress with lots of collected references. It will be a suite of tasks and related preference judgement processes, which creates a large corpus of synthetic data which can be used to fine-tune any LLM with e.g. DPO.
+   \item Implemented tasks so far: ``Create a programming task'', ``Rank programming tasks'', ``Rank programming task rankings'', ``Create an evaluation code for a programming task'', ``Rank evaluation codes'', ``Rank evaluation code rankings'', ``Solve a programming task'', ``Rank programming task solutions'', ``Rank programming task solution rankings'', ...
+  \end{itemize}
 \end{frame}
 
+\section{Try This at Home!}
+\begin{frame}{Try This at Home!}
+  \begin{itemize}
+   \item The step to \textbf{recursive self-improvement} and \textbf{unambiguous AGI} is so small that anyone can now do it at home!
+   \item You'll just need a large corpus of synthetic task performances, preference evaluations on those, and apply DPO on some LLM with this data.
+  \end{itemize}
+  \hspace{2cm}\includegraphics[height=6cm]{recursive.png}
+\end{frame}
 
 
 \end{document}
