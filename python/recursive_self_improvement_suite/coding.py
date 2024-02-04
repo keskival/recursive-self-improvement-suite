@@ -148,8 +148,11 @@ Here is a programming challenge:
 Many software engineers will try to generate a great solution for this challenge. Your job is to evaluate and
 rank their solutions.
 Now, I need you to produce a small Python code which runs a black box solution function provided by a software engineer,
-and prints out evaluation results for it. The evaluation results are any textual output which allows you to
-rank different solutions based on the evaluation function print outs look like for each of the candidate solutions.
+and prints out output for this execution in a way that helps you evaluate its quality.
+The evaluation results are any textual output which allows you to rank different solutions based on the evaluation
+function print outs look like for each of the candidate solutions.
+Your evaluation function is kind of like a test harness for the solution code provided later, but it can output
+more than just pass/fail.
 In the simplest case your evaluation function could be a unit test, but because these are complex and open-ended
 challenges, you should create a function which prints out different kinds of quality related aspects of the candidate
 solution like correctness, run-time, solution quality and so on. For some things it might be difficult to evaluate
@@ -215,7 +218,7 @@ Now, please produce a JSON response without Markdown notation which refers to th
 
 
 def evaluate_evaluation_functions(
-    challenge: str, evaluation_functions: List[str], evaluation_function_ids: List[int]
+    challenge: str, evaluation_functions: List[str], evaluation_function_ids: List[int],
 ):
     schema = f"""
 {{
@@ -254,6 +257,7 @@ def evaluate_solutions(
     challenge: str,
     evaluation_function: str,
     sample_solutions_with_evaluation_function_outputs: str,
+    solution_ids: List[int],
 ):
     schema = f"""
 {{
@@ -264,7 +268,9 @@ def evaluate_solutions(
       "type": "string"
     }},
     "sample_solution_id": {{
-      "type": "number"
+      "type": "integer",
+      "enum": {solution_ids}
+
     }}
   }},
   "required": ["rationale", "sample_solution_id"],
@@ -285,6 +291,10 @@ Here is a programming challenge, an evaluation function and a set of sample solu
 Please provide a rationale for the best sample solution and produce its id.
 Do not evaluate the evaluation function here, just the best solution based on all the information you have.
 Produce the rationale and the sample solution id in a valid JSON object without Markdown notation.
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
 """
 
 

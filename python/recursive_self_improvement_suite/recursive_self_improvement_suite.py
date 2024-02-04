@@ -117,7 +117,7 @@ def coding_improvement_iteration():
         logging.info(f"Solutions: {solutions}")
 
         evaluate_solutions_prompt = coding.evaluate_solutions(
-            challenge, best_evaluation_function, solutions
+            challenge, best_evaluation_function, solutions, range(number_of_solutions)
         )
         solution_evaluations = [chat([evaluate_solutions_prompt]) for _ in range(number_of_rankings)]
 
