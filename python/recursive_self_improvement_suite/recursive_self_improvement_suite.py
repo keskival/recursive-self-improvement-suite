@@ -58,6 +58,8 @@ You will produce either JSON responses without Markdown notation, or Python code
 
 
 def coding_improvement_iteration():
+    # TODO: Just generate one complete iteration from one challenge, and output this as a Dot language diagram
+    #       for graphing it with GraphViz to demonstrate one iteration for the documentation.
     challenges_prompt = coding.generate_challenges()
     challenges = json.loads(chat([challenges_prompt]))
     logging.info(f"Challenges: {challenges}")
