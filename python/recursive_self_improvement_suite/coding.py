@@ -138,7 +138,7 @@ Your output must conform exactly to the following JSON Schema:
 Now, please give me {n} programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
 """
 
-
+# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def generate_evaluation_function(challenge: str):
     return f"""\
 Here is a programming challenge:
@@ -159,7 +159,7 @@ Do not produce the expected output, just the plain Python code which prints out 
 Answer just by giving the Python code with Markdown notation.
 """
 
-
+# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def generate_solutions(challenge: str, evaluation_function: str):
     return f"""\
 Here is a programming challenge:
@@ -174,8 +174,6 @@ Here is the code used to evaluate your solution:
 I need you to produce a small Python code which solves the given problem as evaluated by the evaluation code.
 Answer just by giving the Python code with Markdown notation.
 """
-
-{'rationales': {'challenge1': 'This challenge requires basic mathematical calculations and can be solved with a simple loop or list comprehension.', 'challenge2': 'This challenge requires knowledge of medical thresholds and risk assessment algorithms.', 'challenge3': 'This challenge requires knowledge of geometric calculations and the use of a specific library.', 'challenge4': 'This challenge requires knowledge of stock market analysis and optimization algorithms.', 'challenge5': 'This challenge requires knowledge of discount rules and basic arithmetic operations.'}, 'best_challenges': ['challenge1', 'challenge2', 'challenge3', 'challenge4', 'challenge5']}
 
 def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int = 5):
     schema = f"""\
@@ -252,12 +250,27 @@ Please provide a rationale and choose the best evaluation function which evaluat
 Produce the rationale and the best evaluation function id in a valid JSON object without Markdown notation.
 """
 
-
 def evaluate_solutions(
     challenge: str,
     evaluation_function: str,
     sample_solutions_with_evaluation_function_outputs: str,
 ):
+    schema = f"""
+{{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {{
+    "rationale": {{
+      "type": "string"
+    }},
+    "sample_solution_id": {{
+      "type": "number"
+    }}
+  }},
+  "required": ["rationale", "sample_solution_id"],
+  "additionalProperties": false
+}}
+"""
     return f"""\
 Here is a programming challenge, an evaluation function and a set of sample solutions for it:
 <challenge>
@@ -270,10 +283,12 @@ Here is a programming challenge, an evaluation function and a set of sample solu
 {sample_solutions_with_evaluation_function_outputs}
 </sample-solutions-with-evaluation-function-outputs>
 Please provide a rationale for the best sample solution and produce its id.
+Do not evaluate the evaluation function here, just the best solution based on all the information you have.
 Produce the rationale and the sample solution id in a valid JSON object without Markdown notation.
 """
 
 
+# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 # Note that rankings include rationales for rankings which makes it easier to decide which one is the best.
 def evaluate_challenge_ranking(challenges: List[str], rankings: List[str]):
     return f"""\
@@ -289,6 +304,7 @@ Produce the rationale and the ranking id in plain JSON without Markdown notation
 """
 
 
+# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def evaluate_solution_ranking(
     challenge: str,
     evaluation_function: str,
@@ -314,6 +330,7 @@ Produce the rationale and the ranking id in plain JSON without Markdown notation
 """
 
 
+# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def evaluate_evaluation_function_ranking(
     challenge: str,
     sample_solution: str,

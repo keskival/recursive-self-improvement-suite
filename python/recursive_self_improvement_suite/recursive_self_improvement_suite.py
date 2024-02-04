@@ -130,7 +130,7 @@ def coding_improvement_iteration():
 
         best_solution_id = json.loads(chat([evaluate_solutions_prompt]))
         logging.info(f"Best_solution_id: {best_solution_id}")
-        best_solution = solutions[best_solution_id["best_solution_id"]]
+        best_solution = solutions[best_solution_id["sample_solution_id"]]
         logging.info(f"Best_solution: {best_solution}")
 
         # Then we evaluate the solution rankings.
