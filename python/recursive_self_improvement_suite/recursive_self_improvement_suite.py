@@ -53,6 +53,8 @@ You will produce either JSON responses without Markdown notation, or Python code
             trials = trials + 1
             # Open AI rate limit of one request per second, 60 / minute.
             time.sleep(2)
+    print("Failed calling OpenAI API even with repeated trials!")
+    exit(1)
 
 
 def coding_improvement_iteration():

@@ -128,6 +128,9 @@ The skillset needed to solve the programming challenge should involve specific l
 but also should show domain understanding and understanding of user needs.
 Solutions to the challenge should be implementable with some lines of code using a single function entrypoint,
 although multiple functions are allowed, because the solutions will be automatically evaluated.
+The challenge should be so that you are able to evaluate the quality of the solution by designing
+an evaluation function which calls the challenge solution so that you can easily rank the validity
+and the quality of these solutions by seeing what your evaluation function prints out.
 Your output must conform exactly to the following JSON Schema:
 <JSON-Schema>
 {schema}
@@ -142,7 +145,16 @@ Here is a programming challenge:
 <challenge>
 {challenge}
 </challenge>
-I need you to produce a small Python code which runs the function and prints out evaluation results for it.
+Many software engineers will try to generate a great solution for this challenge. Your job is to evaluate and
+rank their solutions.
+Now, I need you to produce a small Python code which runs a black box solution function provided by a software engineer,
+and prints out evaluation results for it. The evaluation results are any textual output which allows you to
+rank different solutions based on the evaluation function print outs look like for each of the candidate solutions.
+In the simplest case your evaluation function could be a unit test, but because these are complex and open-ended
+challenges, you should create a function which prints out different kinds of quality related aspects of the candidate
+solution like correctness, run-time, solution quality and so on. For some things it might be difficult to evaluate
+the solution quality, because the challenges are open-ended, but do your best so that you are later able to rank
+solutions based on these outputs.
 Do not produce the expected output, just the plain Python code which prints out the results of running the code.
 Answer just by giving the Python code with Markdown notation.
 """
@@ -163,6 +175,7 @@ I need you to produce a small Python code which solves the given problem as eval
 Answer just by giving the Python code with Markdown notation.
 """
 
+{'rationales': {'challenge1': 'This challenge requires basic mathematical calculations and can be solved with a simple loop or list comprehension.', 'challenge2': 'This challenge requires knowledge of medical thresholds and risk assessment algorithms.', 'challenge3': 'This challenge requires knowledge of geometric calculations and the use of a specific library.', 'challenge4': 'This challenge requires knowledge of stock market analysis and optimization algorithms.', 'challenge5': 'This challenge requires knowledge of discount rules and basic arithmetic operations.'}, 'best_challenges': ['challenge1', 'challenge2', 'challenge3', 'challenge4', 'challenge5']}
 
 def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int = 5):
     schema = f"""\
@@ -182,7 +195,8 @@ def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int 
     }},
     "required": ["id", "rationale"],
     "additionalProperties": false
-  }}
+  }},
+  "description": "Your answer is an array of the given number of the best challenges ranked from the best to the worst. Each item in the array has both a rationale for its relative ranking, highlighting its good and bad qualities relative to others, and the id of the challenge.",
 }}
 """
     return f"""\
