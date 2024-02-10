@@ -43,7 +43,7 @@ You will produce either JSON responses without Markdown notation, or Python code
     while trials < 5:
         try:
             completion = client.chat.completions.create(
-                model=model, messages=session, temperature=0.1
+                model=model, messages=session, temperature=0.2
             )
             logging.debug(f"Request: {session}, completion: {completion}")
             return completion.choices[0].message.content
@@ -60,17 +60,25 @@ You will produce either JSON responses without Markdown notation, or Python code
 def coding_improvement_iteration():
     # TODO: Just generate one complete iteration from one challenge, and output this as a Dot language diagram
     #       for graphing it with GraphViz to demonstrate one iteration for the documentation.
+
+    # We generate challenges, evaluation functions and solutions. Multiple response candidates.
+    # Then we rank challenges, evaluation functions and solutions. Multiple ranking candidates.
+    # Then we rank rankings of challeges, evaluation functions and solutions. Single rankings of rankings only.
+
+    # TODO: If you put 1 here, the bot will not generate a list. Handle this case as well with permissive JSON list parsing.
+    number_of_best_challenges = 2
+
     challenges_prompt = coding.generate_challenges()
     challenges = json.loads(chat([challenges_prompt]))
     logging.info(f"Challenges: {challenges}")
     challenge_ids = list(map(lambda challenge: challenge["id"], challenges))
 
-    # Let's only pick 5 best challenges out of 10.
     evaluate_challenges_prompt = coding.evaluate_challenges(
-        challenges, challenge_ids, 5
+        challenges, challenge_ids, number_of_best_challenges
     )
     best_n_challenge_ids = json.loads(chat([evaluate_challenges_prompt]))
     logging.info(f"Best n challenge ids: {best_n_challenge_ids}")
+
     best_n_challenges = [
         next(
             (
@@ -83,11 +91,13 @@ def coding_improvement_iteration():
         for selected_challenge in best_n_challenge_ids
     ]
     logging.info(f"Best n challenges: {best_n_challenges}")
+    # We now have the best n challenges: Let's use those!
 
     for challenge in best_n_challenges:
         # For each challenge we want to create a set of evaluation functions, and choose the best one.
+        number_of_solutions = 5
         number_of_evaluation_functions = 5
-        number_of_rankings = 2
+        number_of_solution_rankings = 2
         number_of_evaluation_rankings = 2
         
         evaluation_function_prompt = coding.generate_evaluation_function(challenge)
@@ -104,38 +114,71 @@ def coding_improvement_iteration():
                 for id, evaluation_function in enumerate(evaluation_functions)
             ],
             range(len(evaluation_functions)),
-        )
-        best_evaluation_function_id = json.loads(
+        ) 
+        best_evaluation_function_ids = [json.loads(
             chat([evaluate_evaluation_functions_prompt])
-        )
+        ) for _ in range(number_of_evaluation_rankings)]
+        
+        # TODO: Select the best ranking of evaluation functions.
+        evaluate_evaluation_function_rankings = coding.evaluate_evaluation_function_ranking(challenge, evaluation_functions, best_evaluation_function_ids)
+        best_evaluation_function_ranking = json.loads(chat([evaluate_evaluation_function_rankings]))
+        # We now have the best evaluation function ranking: Let's use it!
+        logging.info(f"Best evaluation function ranking: {best_evaluation_function_ranking}")
+        best_evaluation_function_id = best_evaluation_function_ranking["best_evaluation_function_id"]
+
         logging.info(f"Best evaluation function id: {best_evaluation_function_id}")
-        best_evaluation_function = evaluation_functions[best_evaluation_function_id["best_evaluation_function_id"]]
+        best_evaluation_function = evaluation_functions[best_evaluation_function_id]
         logging.info(f"Best evaluation function: {best_evaluation_function}")
+        
+        # We now have the best evaluation function for this challenge: Let's use it!
 
         # Then we generate solutions, using the best evaluation function.
         solution_prompt = coding.generate_solutions(challenge, best_evaluation_function)
-        number_of_solutions = 5
         solutions = [chat([solution_prompt]) for _ in range(number_of_solutions)]
         logging.info(f"Solutions: {solutions}")
 
-        evaluate_solutions_prompt = coding.evaluate_solutions(
-            challenge, best_evaluation_function, solutions, range(number_of_solutions)
-        )
-        solution_evaluations = [chat([evaluate_solutions_prompt]) for _ in range(number_of_rankings)]
-
         # TODO: Run the evaluation functions and add their outputs to the solutions.
         solutions_with_evaluation_function_outputs = solutions
-        # TODO: Then we rank evaluations, i.e. rankings.
-        ranking_evaluations_prompt = coding.evaluate_solution_ranking(challenge, best_evaluation_function, solutions, solution_evaluations)
-        rankings_of_evaluations = [chat([ranking_evaluations_prompt]) for _ in range(number_of_evaluation_rankings)]
-        logging.info(f"Rankings_of_evaluations: {rankings_of_evaluations}")
 
-        best_solution_id = json.loads(chat([evaluate_solutions_prompt]))
+        evaluate_solutions_prompt = coding.evaluate_solutions(
+            challenge, best_evaluation_function, solutions_with_evaluation_function_outputs, range(number_of_solutions)
+        )
+        solution_evaluations = [json.loads(chat([evaluate_solutions_prompt])) for _ in range(number_of_solution_rankings)]
+
+        # Then we rank solution rankings.
+        ranking_evaluations_prompt = coding.evaluate_solution_ranking(
+            challenge, best_evaluation_function, solutions_with_evaluation_function_outputs, solution_evaluations)
+        # TODO: The bot actually tends to rank the solutions, not the rankings here. Tune the prompt.
+        ranking_of_solution_evaluations = json.loads(chat([ranking_evaluations_prompt]))
+        
+        # [{'rationale': 'The best sample solution is the one that uses the math module to calculate the volume and surface area of the shapes. 
+        # This solution is more accurate because it uses the value of pi from the math module instead of an approximation. 
+        # Additionally, it is more readable and follows the standard convention for importing the math module.', 'ranking_id': 2}, 
+        # {'rationale': 'The best sample solution is the one that uses the math module to calculate the volume and surface area of 
+        # the shapes. This solution is more accurate because it uses the value of pi from the math module instead of an approximation. 
+        # Additionally, it is more readable and follows the standard convention for importing the math module.', 'ranking_id': 2}]
+
+        logging.info(f"Ranking_of_solution_evaluations: {ranking_of_solution_evaluations}")
+
+        best_solution_ranking_id = ranking_of_solution_evaluations["sample_solution_ranking_id"]
+        logging.info(f"Best_solution_ranking_id: {best_solution_ranking_id}")
+        best_solution_ranking = solution_evaluations[best_solution_ranking_id["sample_solution_ranking_id"]]
+        logging.info(f"Best_solution_ranking: {best_solution_ranking}")
+        # We now have the best solution ranking: Let's use that!
+
+        best_solution_id = solutions[best_solution_ranking]
         logging.info(f"Best_solution_id: {best_solution_id}")
         best_solution = solutions[best_solution_id["sample_solution_id"]]
         logging.info(f"Best_solution: {best_solution}")
+        
+        # TODO: Actually run all the evaluation functions for the best solution here.
+        evaluation_function_outputs_for_the_best_solution = solution_evaluations
+        ranking_evaluation_functions_prompt = coding.evaluate_evaluation_function_ranking(
+            challenge, best_solution, evaluation_function_outputs_for_the_best_solution, solution_evaluations)
+        ranking_of_evaluation_functions = chat([ranking_evaluation_functions_prompt])
+        logging.info(f"Eanking_of_evaluation_functions: {ranking_of_evaluation_functions}")
+        
 
-        # Then we evaluate the solution rankings.
     # TODO: This is just one prototype iteration. Ultimately, after tuning prompts and all, we aim to collect
     #       the good trajectories and fine-tune the model with those. This will make the model better at the tasks and
     #       also in evaluation of the tasks over each iteration.

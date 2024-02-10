@@ -197,7 +197,7 @@ def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int 
     "required": ["id", "rationale"],
     "additionalProperties": false
   }},
-  "description": "Your answer is an array of the given number of the best challenges ranked from the best to the worst. Each item in the array has both a rationale for its relative ranking, highlighting its good and bad qualities relative to others, and the id of the challenge.",
+  "description": "Your answer is an array of the given number of the best challenges ranked from the best to the worst. Each item in the array has both a rationale for its relative ranking, highlighting its good and bad qualities relative to others, and the id of the challenge. Be careful to produce a JSON array of objects as per the given schema.",
 }}
 """
     return f"""\
@@ -343,24 +343,21 @@ Produce the rationale and the ranking id in plain JSON without Markdown notation
 # TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def evaluate_evaluation_function_ranking(
     challenge: str,
-    sample_solution: str,
-    evaluation_functions_with_outputs: str,
+    evaluation_functions: List[str],
     sample_rankings_of_evaluation_functions: List[str],
 ):
     return f"""\
-Here is a programming challenge, a sample solution for it, a set of evaluation functions with their outputs for the sample solution, and a set of rankings for the evaluation functions:
+Here is a programming challenge, candidate evaluation functions, and a set of rankings for the evaluation functions:
 <challenge>
 {challenge}
 </challenge>
-<sample-solution>
-{sample_solution}
-</sample-solution>
-<evaluation-functions-with-outputs>
-{evaluation_functions_with_outputs}
-</evaluation-functions-with_outputs>
+<evaluation-functions>
+{evaluation_functions}
+</evaluation-functions>
 <sample-rankings-of-evaluation-functions>
 {sample_rankings_of_evaluation_functions}
 </sample-rankings-of-evaluation-functions>
+Each ranking is from a different judge. Your task is to select the best ranking, to judge the judges.
 Please provide a rationale and choose the best ranking for the evaluation functions.
 Produce the rational and the ranking id in plain JSON without Markdown notation.
 """
