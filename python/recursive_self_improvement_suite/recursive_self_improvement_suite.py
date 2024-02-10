@@ -71,7 +71,8 @@ def coding_improvement_iteration():
 
     # TODO: If you put 1 here, the bot will not generate a list. Handle this case as well with permissive JSON list parsing.
     number_of_best_challenges = 2
-
+    number_of_challenge_rankings = 3
+    
     challenges_prompt = coding.generate_challenges()
     challenges = json.loads(chat([challenges_prompt]))
     logging.info(f"Challenges: {challenges}")
@@ -80,8 +81,27 @@ def coding_improvement_iteration():
     evaluate_challenges_prompt = coding.evaluate_challenges(
         challenges, challenge_ids, number_of_best_challenges
     )
-    best_n_challenge_ids = json.loads(chat([evaluate_challenges_prompt]))
-    logging.info(f"Best n challenge ids: {best_n_challenge_ids}")
+    best_n_challenge_ids_candidates = [json.loads(chat([evaluate_challenges_prompt])) for _ in range (number_of_challenge_rankings)]
+    logging.info(f"Best n challenge ids candidates: {best_n_challenge_ids_candidates}")
+
+    
+    evaluate_challenge_rankings = coding.evaluate_challenge_rankings(
+        challenges,
+        [
+            {"id": id, "best_n_challenge_ids_candidate": best_n_challenge_ids_candidate}
+            for id, best_n_challenge_ids_candidate in enumerate(best_n_challenge_ids_candidates)
+        ],
+        range(number_of_challenge_rankings))
+    best_challenge_ranking = json.loads(chat([evaluate_challenge_rankings]))
+    # We now have the best evaluation function ranking: Let's use it!
+    logging.info(f"Best challenge ranking: {best_challenge_ranking}")
+    best_challenge_ranking_id = best_challenge_ranking["best_challenge_ranking_id"]
+
+    logging.info(f"Best best_challenge_ranking_id: {best_challenge_ranking_id}")
+    best_n_challenge_ids = best_n_challenge_ids_candidates[best_challenge_ranking_id]
+    logging.info(f"Best n challenges: {best_n_challenge_ids}")
+    
+    
 
     best_n_challenges = [
         next(
@@ -95,6 +115,7 @@ def coding_improvement_iteration():
         for selected_challenge in best_n_challenge_ids
     ]
     logging.info(f"Best n challenges: {best_n_challenges}")
+
     # We now have the best n challenges: Let's use those!
 
     for challenge in best_n_challenges:

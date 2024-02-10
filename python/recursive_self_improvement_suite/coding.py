@@ -138,7 +138,6 @@ Your output must conform exactly to the following JSON Schema:
 Now, please give me {n} programming challenge descriptions. Produce them in a JSON form without Markdown notation because they are read by a machine.
 """
 
-# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def generate_evaluation_function(challenge: str):
     return f"""\
 Here is a programming challenge:
@@ -162,7 +161,6 @@ Do not produce the expected output, just the plain Python code which prints out 
 Answer just by giving the Python code with Markdown notation.
 """
 
-# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def generate_solutions(challenge: str, evaluation_function: str):
     return f"""\
 Here is a programming challenge:
@@ -300,7 +298,25 @@ Your output must conform exactly to the following JSON Schema:
 
 # TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 # Note that rankings include rationales for rankings which makes it easier to decide which one is the best.
-def evaluate_challenge_ranking(challenges: List[str], rankings: List[str]):
+def evaluate_challenge_rankings(challenges: List[str], rankings: List[str], ranking_ids: List[int]):
+    schema = f"""
+{{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {{
+    "best_challenge_ranking_rationale": {{
+      "type": "string"
+    }},
+    "best_challenge_ranking_id": {{
+      "type": "integer",
+      "enum": {ranking_ids}
+
+    }}
+  }},
+  "required": ["rationale", "sample_solution_id"],
+  "additionalProperties": false
+}}
+"""
     return f"""\
 Here is a set of programming challenges:
 <challenges>
@@ -309,8 +325,14 @@ Here is a set of programming challenges:
 <rankings>
 {rankings}
 </rankings>
-Please provide a rationale for the best challenge ranking and provide the best ranking id for the challenges.
+Each ranking is from a different judge. Your task is not to rank the programming challenges, this has already been done by multiple judges.
+Please rank the challenge rankings ao we get a ranking for the judges, from the best judge to the worst one.
+Please provide a rationale for the best challenge ranking and provide the best ranking id for the challenge rankings.
 Produce the rationale and the ranking id in plain JSON without Markdown notation.
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
 """
 
 
@@ -363,7 +385,6 @@ Your output must conform exactly to the following JSON Schema:
 """
 
 
-# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def evaluate_evaluation_function_ranking(
     challenge: str,
     evaluation_functions: List[str],
