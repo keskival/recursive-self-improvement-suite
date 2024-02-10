@@ -99,7 +99,7 @@ Your code should pass these tests:\n\n{tests}\nYour code should start with a [PY
 def generate_challenges(n: int = 10):
     schema = """\
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "array",
   "items": {
     "type": "object",
@@ -179,7 +179,7 @@ Answer just by giving the Python code with Markdown notation.
 def evaluate_challenges(challenges: List[str], challenge_ids: List[str], n: int = 5):
     schema = f"""\
 {{
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "array",
   "items": {{
     "type": "object",
@@ -220,7 +220,7 @@ def evaluate_evaluation_functions(
 ):
     schema = f"""
 {{
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {{
     "best_evaluation_function_id": {{
@@ -259,7 +259,7 @@ def evaluate_solutions(
 ):
     schema = f"""
 {{
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {{
     "rationale": {{
@@ -296,12 +296,11 @@ Your output must conform exactly to the following JSON Schema:
 """
 
 
-# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 # Note that rankings include rationales for rankings which makes it easier to decide which one is the best.
 def evaluate_challenge_rankings(challenges: List[str], rankings: List[str], ranking_ids: List[int]):
     schema = f"""
 {{
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {{
     "best_challenge_ranking_rationale": {{
@@ -345,7 +344,7 @@ def evaluate_solution_ranking(
 ):
     schema = f"""
 {{
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {{
     "rationale": {{
@@ -393,7 +392,7 @@ def evaluate_evaluation_function_ranking(
 ):
     schema = f"""
 {{
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {{
     "rationale": {{
