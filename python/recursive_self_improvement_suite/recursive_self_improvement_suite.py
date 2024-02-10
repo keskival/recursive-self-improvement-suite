@@ -64,6 +64,10 @@ def coding_improvement_iteration():
     # We generate challenges, evaluation functions and solutions. Multiple response candidates.
     # Then we rank challenges, evaluation functions and solutions. Multiple ranking candidates.
     # Then we rank rankings of challeges, evaluation functions and solutions. Single rankings of rankings only.
+    
+    # We will typically choose the best challenge, evaluation function and solution in this order.
+    # In order to do that, we need to produce multiple rankings for each, and then select the best ranking for each.
+    # Only after selecting the best ranking, we can use that to select the best challenge, the best evaluation function and the best solution.
 
     # TODO: If you put 1 here, the bot will not generate a list. Handle this case as well with permissive JSON list parsing.
     number_of_best_challenges = 2
@@ -115,16 +119,21 @@ def coding_improvement_iteration():
             ],
             range(len(evaluation_functions)),
         ) 
-        best_evaluation_function_ids = [json.loads(
+        evaluation_function_rankings = [json.loads(
             chat([evaluate_evaluation_functions_prompt])
         ) for _ in range(number_of_evaluation_rankings)]
         
-        # TODO: Select the best ranking of evaluation functions.
-        evaluate_evaluation_function_rankings = coding.evaluate_evaluation_function_ranking(challenge, evaluation_functions, best_evaluation_function_ids)
+        evaluate_evaluation_function_rankings = coding.evaluate_evaluation_function_ranking(
+            challenge, evaluation_functions,
+            [
+                {"id": id, "evaluation_function_ranking": evaluation_function_ranking}
+                for id, evaluation_function_ranking in enumerate(evaluation_function_rankings)
+            ],
+            range(number_of_evaluation_rankings))
         best_evaluation_function_ranking = json.loads(chat([evaluate_evaluation_function_rankings]))
         # We now have the best evaluation function ranking: Let's use it!
         logging.info(f"Best evaluation function ranking: {best_evaluation_function_ranking}")
-        best_evaluation_function_id = best_evaluation_function_ranking["best_evaluation_function_id"]
+        best_evaluation_function_id = best_evaluation_function_ranking["best_ranking_id"]
 
         logging.info(f"Best evaluation function id: {best_evaluation_function_id}")
         best_evaluation_function = evaluation_functions[best_evaluation_function_id]
@@ -147,20 +156,17 @@ def coding_improvement_iteration():
 
         # Then we rank solution rankings.
         ranking_evaluations_prompt = coding.evaluate_solution_ranking(
-            challenge, best_evaluation_function, solutions_with_evaluation_function_outputs, solution_evaluations)
+            challenge, best_evaluation_function, solutions_with_evaluation_function_outputs,
+            [
+                {"id": id, "solution_evaluation": solution_evaluation}
+                for id, solution_evaluation in enumerate(solution_evaluations)
+            ],
+            range(number_of_solution_rankings))
         # TODO: The bot actually tends to rank the solutions, not the rankings here. Tune the prompt.
         ranking_of_solution_evaluations = json.loads(chat([ranking_evaluations_prompt]))
         
-        # [{'rationale': 'The best sample solution is the one that uses the math module to calculate the volume and surface area of the shapes. 
-        # This solution is more accurate because it uses the value of pi from the math module instead of an approximation. 
-        # Additionally, it is more readable and follows the standard convention for importing the math module.', 'ranking_id': 2}, 
-        # {'rationale': 'The best sample solution is the one that uses the math module to calculate the volume and surface area of 
-        # the shapes. This solution is more accurate because it uses the value of pi from the math module instead of an approximation. 
-        # Additionally, it is more readable and follows the standard convention for importing the math module.', 'ranking_id': 2}]
-
         logging.info(f"Ranking_of_solution_evaluations: {ranking_of_solution_evaluations}")
-
-        best_solution_ranking_id = ranking_of_solution_evaluations["sample_solution_ranking_id"]
+        best_solution_ranking_id = ranking_of_solution_evaluations["ranking_id"]
         logging.info(f"Best_solution_ranking_id: {best_solution_ranking_id}")
         best_solution_ranking = solution_evaluations[best_solution_ranking_id["sample_solution_ranking_id"]]
         logging.info(f"Best_solution_ranking: {best_solution_ranking}")

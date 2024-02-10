@@ -314,13 +314,32 @@ Produce the rationale and the ranking id in plain JSON without Markdown notation
 """
 
 
-# TODO: Add JSON Schema based on what the bot tends to respond without a Schema.
 def evaluate_solution_ranking(
     challenge: str,
     evaluation_function: str,
     sample_solutions_with_evaluation_function_outputs: List[str],
     sample_rankings_of_solutions: List[str],
+    ranking_ids: List[int],
 ):
+    schema = f"""
+{{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {{
+    "rationale": {{
+      "type": "string"
+    }},
+    "ranking_id": {{
+      "type": "integer",
+      "enum": {ranking_ids}
+
+    }}
+  }},
+  "required": ["rationale", "sample_solution_id"],
+  "additionalProperties": false
+}}
+"""
+
     return f"""\
 Here is a programming challenge, an evaluation function, a set of sample solutions for it, and a set of rankings for the sample solutions:
 <challenge>
@@ -337,6 +356,10 @@ Here is a programming challenge, an evaluation function, a set of sample solutio
 </sample-rankings-of-solutions>
 Please provide a rationale and choose the best ranking id for the solutions.
 Produce the rationale and the ranking id in plain JSON without Markdown notation.
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
 """
 
 
@@ -345,7 +368,26 @@ def evaluate_evaluation_function_ranking(
     challenge: str,
     evaluation_functions: List[str],
     sample_rankings_of_evaluation_functions: List[str],
+    ranking_ids: List[int],
 ):
+    schema = f"""
+{{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {{
+    "rationale": {{
+      "type": "string"
+    }},
+    "best_ranking_id": {{
+      "type": "integer",
+      "enum": {ranking_ids}
+
+    }}
+  }},
+  "required": ["rationale", "best_ranking_id"],
+  "additionalProperties": false
+}}
+"""
     return f"""\
 Here is a programming challenge, candidate evaluation functions, and a set of rankings for the evaluation functions:
 <challenge>
@@ -360,4 +402,8 @@ Here is a programming challenge, candidate evaluation functions, and a set of ra
 Each ranking is from a different judge. Your task is to select the best ranking, to judge the judges.
 Please provide a rationale and choose the best ranking for the evaluation functions.
 Produce the rational and the ranking id in plain JSON without Markdown notation.
+Your output must conform exactly to the following JSON Schema:
+<JSON-Schema>
+{schema}
+</JSON-Schema>
 """
