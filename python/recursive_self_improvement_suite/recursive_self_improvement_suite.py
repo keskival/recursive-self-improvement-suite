@@ -173,7 +173,7 @@ def coding_improvement_iteration():
         logging.info(f"Best_solution_ranking: {best_solution_ranking}")
         # We now have the best solution ranking: Let's use that!
 
-        best_solution_id = solutions[best_solution_ranking]
+        best_solution_id = solutions[best_solution_ranking["sample_solution_id"]]
         logging.info(f"Best_solution_id: {best_solution_id}")
         best_solution = solutions[best_solution_id["sample_solution_id"]]
         logging.info(f"Best_solution: {best_solution}")
