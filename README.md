@@ -109,6 +109,7 @@ Recursive Self-improvement Suite
 - [Vision-Language Models as a Source of Rewards](https://arxiv.org/abs/2312.09187)
 - [AMIE: A research AI system for diagnostic medical reasoning and conversations](https://blog.research.google/2024/01/amie-research-ai-system-for-diagnostic_12.html?m=1)
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020v1)
+- [Autonomous Evaluation and Refinement of Digital Agents](https://arxiv.org/abs/2404.06474)
 
 ## Related Posts
 
