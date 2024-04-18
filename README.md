@@ -110,6 +110,7 @@ Recursive Self-improvement Suite
 - [AMIE: A research AI system for diagnostic medical reasoning and conversations](https://blog.research.google/2024/01/amie-research-ai-system-for-diagnostic_12.html?m=1)
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020v1)
 - [Autonomous Evaluation and Refinement of Digital Agents](https://arxiv.org/abs/2404.06474)
+- [Best Practices and Lessons Learned on Synthetic Data for Language Models](https://arxiv.org/abs/2404.07503)
 
 ## Related Posts
 
