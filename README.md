@@ -111,6 +111,7 @@ Recursive Self-improvement Suite
 - [Self-Rewarding Language Models](https://arxiv.org/abs/2401.10020v1)
 - [Autonomous Evaluation and Refinement of Digital Agents](https://arxiv.org/abs/2404.06474)
 - [Best Practices and Lessons Learned on Synthetic Data for Language Models](https://arxiv.org/abs/2404.07503)
+- [Toward Self-Improvement of LLMs via Imagination, Searching, and Criticizing](https://arxiv.org/abs/2404.12253)
 
 ## Related Posts
 
