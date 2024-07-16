@@ -78,7 +78,7 @@ Then you can run some initial functionality with this command in the `python` di
 python -m recursive_self_improvement_suite.recursive_self_improvement_suite
 ```
 
-## Reference
+## Citing
 
 Recursive Self-improvement Suite
 
