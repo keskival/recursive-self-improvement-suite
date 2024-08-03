@@ -86,9 +86,12 @@ Recursive Self-improvement Suite
 @article{keskival2023recursive,
   title={Recursive Self-improvement Suite},
   author={Keski-Valkama, Tero},
-  year={2023}
+  year={2023},
+  doi={10.5281/zenodo.13207300}
 }
 ```
+
+[![DOI](https://zenodo.org/badge/735292604.svg)](https://zenodo.org/doi/10.5281/zenodo.13207300)
 
 ## References
 
