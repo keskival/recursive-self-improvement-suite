@@ -118,6 +118,7 @@ Recursive Self-improvement Suite
 - [Prover-Verifier Games improve legibility of language model outputs](https://openai.com/index/prover-verifier-games-improve-legibility)
 - [Meta-Rewarding Language Models: Self-Improving Alignment with LLM-as-a-Meta-Judge](https://arxiv.org/abs/2407.19594)
 - [Mind the Gap: Examining the Self-Improvement Capabilities of Large Language Models](https://arxiv.org/abs/2412.02674)
+- [Agent-R: Training Language Model Agents to Reflect via Iterative Self-Training](https://github.com/bytedance/Agent-R)
 
 ## Related Posts
 
